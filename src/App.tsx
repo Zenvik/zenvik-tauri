@@ -3,12 +3,12 @@ import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import DashboardLayout from "@/components/DashboardLayout";
 import LoginPage from "@/pages/LoginPage";
-import OverviewDashboard from "@/pages/dashboards/OverviewDashboard";
-import SalesDashboard from "@/pages/dashboards/SalesDashboard";
-import AnalyticsDashboard from "@/pages/dashboards/AnalyticsDashboard";
-import OperacionesDashboard from "@/pages/dashboards/OperacionesDashboard";
-import FinanzasDashboard from "@/pages/dashboards/FinanzasDashboard";
-import ReportesDashboard from "@/pages/dashboards/ReportesDashboard";
+import PesajeEnPie from "@/pages/dashboards/PesajeEnPie";
+import CanalEmpella from "@/pages/dashboards/CanalEmpella";
+import CabezaPelo from "@/pages/dashboards/CabezaPelo";
+import CascosDesperdicio from "@/pages/dashboards/CascosDesperdicio";
+import Decomisos from "@/pages/dashboards/Decomisos";
+import PesajeEnFrio from "@/pages/dashboards/PesajeEnFrio";
 import type { ReactNode } from "react";
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
@@ -17,73 +17,29 @@ function ProtectedRoute({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
+function Dash({ children }: { children: ReactNode }) {
+  return (
+    <ProtectedRoute>
+      <DashboardLayout>{children}</DashboardLayout>
+    </ProtectedRoute>
+  );
+}
+
 function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<LoginPage />} />
 
-      <Route
-        path="/dashboard/overview"
-        element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <OverviewDashboard />
-            </DashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/dashboard/ventas"
-        element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <SalesDashboard />
-            </DashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/dashboard/analytics"
-        element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <AnalyticsDashboard />
-            </DashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/dashboard/operaciones"
-        element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <OperacionesDashboard />
-            </DashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/dashboard/finanzas"
-        element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <FinanzasDashboard />
-            </DashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/dashboard/reportes"
-        element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <ReportesDashboard />
-            </DashboardLayout>
-          </ProtectedRoute>
-        }
-      />
+      <Route path="/dashboard/en-pie"              element={<Dash><PesajeEnPie /></Dash>} />
+      <Route path="/dashboard/canal-empella"        element={<Dash><CanalEmpella /></Dash>} />
+      <Route path="/dashboard/cabeza-pelo"          element={<Dash><CabezaPelo /></Dash>} />
+      <Route path="/dashboard/cascos-desperdicio"   element={<Dash><CascosDesperdicio /></Dash>} />
+      <Route path="/dashboard/decomisos"            element={<Dash><Decomisos /></Dash>} />
+      <Route path="/dashboard/en-frio"              element={<Dash><PesajeEnFrio /></Dash>} />
 
+      {/* Default dashboard → Etapa 1 */}
+      <Route path="/dashboard" element={<Navigate to="/dashboard/en-pie" replace />} />
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );

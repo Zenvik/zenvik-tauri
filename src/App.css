@@ -3,6 +3,96 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 
+/* Tremor v3 + Tailwind v4 compatibility:
+   Tremor generates class names dynamically (fill-emerald-500, stroke-amber-500, etc.)
+   which Tailwind v4 cannot scan from node_modules. Force-include them here. */
+@source inline("{fill,stroke}-{emerald,amber,blue,cyan,violet,slate,orange,rose,red,green,sky,indigo,purple,pink,teal,lime,yellow,fuchsia,neutral,zinc,gray,stone}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("{bg,text,border,ring}-{emerald,amber,blue,cyan,violet,slate,orange,rose,red,green,sky,indigo,purple,pink,teal}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("bg-{emerald,amber,blue,cyan,violet,slate,orange,rose,red,green,sky,teal}-{100,200,500}/20");
+
+/* ─── Recharts / Tremor chart global overrides ───────────────────────────── */
+
+/* Axis tick labels */
+.recharts-cartesian-axis-tick text,
+.recharts-cartesian-axis-tick-value {
+  fill: #94A3B8 !important;
+  font-size: 11px !important;
+  font-family: 'Geist Variable', sans-serif !important;
+}
+
+/* Horizontal grid lines — very subtle */
+.recharts-cartesian-grid-horizontal line {
+  stroke: #F1F5F9 !important;
+  stroke-width: 1px !important;
+}
+
+/* Hide vertical grid lines */
+.recharts-cartesian-grid-vertical line {
+  stroke: transparent !important;
+}
+
+/* Tooltip wrapper — remove default outline/shadow conflicts */
+.recharts-tooltip-wrapper {
+  outline: none !important;
+  filter: drop-shadow(0 8px 24px rgba(15, 23, 42, 0.10)) !important;
+}
+
+/* Tooltip inner container (Tremor renders a Card here) */
+.recharts-tooltip-wrapper > div {
+  border-radius: 10px !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Active dot on hover */
+.recharts-active-dot circle {
+  stroke-width: 2 !important;
+}
+
+/* Recharts cursor area (hover highlight) */
+.recharts-rectangle.recharts-tooltip-cursor {
+  fill: #F8FAFC !important;
+}
+
+/* Line cursor */
+.recharts-line.recharts-tooltip-cursor line,
+.recharts-area.recharts-tooltip-cursor line {
+  stroke: #CBD5E1 !important;
+  stroke-width: 1px !important;
+  stroke-dasharray: 4 3 !important;
+}
+
+/* Legend items */
+.recharts-legend-item-text {
+  font-size: 11px !important;
+  color: #64748B !important;
+  font-family: 'Geist Variable', sans-serif !important;
+  font-weight: 500 !important;
+}
+.recharts-legend-item {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  margin-right: 16px !important;
+}
+
+/* Remove underline from all Tremor elements (Tailwind v4 + shadcn compat) */
+[class*="tremor-Badge"],
+[class*="tremor-Badge"] *,
+[class*="tremor-"] span,
+[class*="tremor-"] p {
+  text-decoration: none !important;
+}
+
+/* DonutChart center label */
+.recharts-text.recharts-label {
+  font-family: 'Geist Variable', sans-serif !important;
+  font-weight: 700 !important;
+}
+
+/* ─── Brand palette ───────────────────────────────────────────────────────── */
 /* Brand palette */
 :root {
   --brand-primary: #0F172A;

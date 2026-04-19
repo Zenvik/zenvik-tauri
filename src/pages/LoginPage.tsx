@@ -17,7 +17,7 @@ export default function LoginPage() {
       return;
     }
     login(name.trim(), email.trim());
-    navigate("/dashboard/overview");
+    navigate("/dashboard/en-pie");
   };
 
   return (
