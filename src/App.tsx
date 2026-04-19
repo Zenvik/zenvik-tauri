@@ -1,49 +1,46 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
+import { Button } from "@/components/ui/button";
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
-  }
-
   return (
-    <main className="container">
-      <h1>Welcome to Tauri + React</h1>
+    <main className="min-h-screen bg-background flex items-center justify-center">
+      <div className="w-full max-w-sm space-y-6 px-6">
+        <div className="space-y-1 text-center">
+          <h1 className="text-2xl font-bold tracking-tight">Tayronama</h1>
+          <p className="text-sm text-muted-foreground">Sign in to your account</p>
+        </div>
 
-      <div className="row">
-        <a href="https://vite.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+          <div className="space-y-1">
+            <label className="text-sm font-medium" htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              placeholder="you@example.com"
+              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-sm font-medium" htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            />
+          </div>
+
+          <Button type="submit" className="w-full">Sign in</Button>
+        </form>
+
+        <p className="text-center text-sm text-muted-foreground">
+          Don't have an account?{" "}
+          <a href="#" className="text-foreground font-medium underline underline-offset-4 hover:opacity-80">
+            Sign up
+          </a>
+        </p>
       </div>
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-      <form
-        className="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-      <p>{greetMsg}</p>
     </main>
   );
 }
