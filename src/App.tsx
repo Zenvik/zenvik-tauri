@@ -1,47 +1,101 @@
 import "./App.css";
-import { Button } from "@/components/ui/button";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider, useAuth } from "@/context/AuthContext";
+import DashboardLayout from "@/components/DashboardLayout";
+import LoginPage from "@/pages/LoginPage";
+import OverviewDashboard from "@/pages/dashboards/OverviewDashboard";
+import SalesDashboard from "@/pages/dashboards/SalesDashboard";
+import AnalyticsDashboard from "@/pages/dashboards/AnalyticsDashboard";
+import OperacionesDashboard from "@/pages/dashboards/OperacionesDashboard";
+import FinanzasDashboard from "@/pages/dashboards/FinanzasDashboard";
+import ReportesDashboard from "@/pages/dashboards/ReportesDashboard";
+import type { ReactNode } from "react";
+
+function ProtectedRoute({ children }: { children: ReactNode }) {
+  const { user } = useAuth();
+  if (!user) return <Navigate to="/login" replace />;
+  return <>{children}</>;
+}
+
+function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="/login" element={<LoginPage />} />
+
+      <Route
+        path="/dashboard/overview"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <OverviewDashboard />
+            </DashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard/ventas"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <SalesDashboard />
+            </DashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard/analytics"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <AnalyticsDashboard />
+            </DashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard/operaciones"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <OperacionesDashboard />
+            </DashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard/finanzas"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <FinanzasDashboard />
+            </DashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard/reportes"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <ReportesDashboard />
+            </DashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
+  );
+}
 
 function App() {
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center">
-      <div className="w-full max-w-sm space-y-6 px-6">
-        <div className="space-y-1 text-center">
-          <h1 className="text-2xl font-bold tracking-tight">Tayronama</h1>
-          <p className="text-sm text-muted-foreground">Sign in to your account</p>
-        </div>
-
-        <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-          <div className="space-y-1">
-            <label className="text-sm font-medium" htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              placeholder="you@example.com"
-              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            />
-          </div>
-
-          <div className="space-y-1">
-            <label className="text-sm font-medium" htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            />
-          </div>
-
-          <Button type="submit" className="w-full">Sign in</Button>
-        </form>
-
-        <p className="text-center text-sm text-muted-foreground">
-          Don't have an account?{" "}
-          <a href="#" className="text-foreground font-medium underline underline-offset-4 hover:opacity-80">
-            Sign up
-          </a>
-        </p>
-      </div>
-    </main>
+    <HashRouter>
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
+    </HashRouter>
   );
 }
 

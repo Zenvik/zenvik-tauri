@@ -3,6 +3,14 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 
+/* Brand palette */
+:root {
+  --brand-primary: #0F172A;
+  --brand-secondary: #10B981;
+  --brand-tertiary: #F59E0B;
+  --brand-neutral: #475569;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
